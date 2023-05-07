@@ -1,0 +1,21 @@
+name: Memos Reminder
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: "0 1,5,10,13 * * *"
+jobs:
+  run_flomo_reminder:
+    name: Run Memos Reminder
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - run: npm install
+      - env:
+          MEMOS_OPEN_API: ${{ secrets.MEMOS_OPEN_API }}
+          MEMOS_SERVER_URL: ${{ secrets.MEMOS_SERVER_URL }}
+          FEISHU_URL: ${{ secrets.FEISHU_URL }}
+          PUSH_TAGS: ${{ vars.PUSH_TAGS }}
+        run: npm start
