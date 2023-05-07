@@ -1,11 +1,12 @@
 import axios from "axios";
 import envService from "./EnvService";
+import { Memo } from "../types";
 
 interface Config {
   url: string;
   request: {
     method: "GET" | "POST";
-    getData: (content: string) => Record<string, string | number>;
+    getData: (memo: Memo) => Memo;
   };
 }
 
@@ -15,21 +16,22 @@ export class PushService {
       url: envService.envs.FEISHU_URL,
       request: {
         method: "POST",
-        getData: (content) => ({
-          id: Date.now(),
+        getData: (memo: Memo) => ({
           title: "memos 每日提醒",
-          content,
+          ...memo,
         }),
       },
     },
   };
 
-  push = (content = "") => {
+  push = (content: Memo) => {
     Object.values(this.configs).forEach((config) => {
       axios({
         url: config.url,
         method: config.request.method,
-        data: config.request.getData(content),
+        data: {
+          events: [config.request.getData(content)],
+        },
       });
     });
   };

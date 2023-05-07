@@ -24,7 +24,7 @@ async function main() {
 
   console.log("The lucky memo is: \r\n\r\n", luckyMemo, "\r\n");
 
-  pushService.push(luckyMemo.content);
+  pushService.push(luckyMemo);
 }
 
 main();
