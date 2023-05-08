@@ -6,7 +6,7 @@ interface Config {
   url: string;
   request: {
     method: "GET" | "POST";
-    getData: (memo: Memo) => Memo;
+    getData: (memo: Memo) => string;
   };
 }
 
@@ -16,21 +16,21 @@ export class PushService {
       url: envService.envs.FEISHU_URL,
       request: {
         method: "POST",
-        getData: (memo: Memo) => ({
-          title: "memos 每日提醒",
-          ...memo,
-        }),
+        getData: (memo: Memo) =>
+          `${memo.content}\n${memo.resourceList.map(
+            (res) => `![${res.filename}](${res.externalLink})`
+          )}`,
       },
     },
   };
 
-  push = (content: Memo) => {
+  push = (memo: Memo) => {
     Object.values(this.configs).forEach((config) => {
       axios({
         url: config.url,
         method: config.request.method,
         data: {
-          events: [config.request.getData(content)],
+          content: config.request.getData(memo),
         },
       });
     });
