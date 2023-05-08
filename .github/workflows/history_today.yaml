@@ -1,4 +1,4 @@
-name: Memos Reminder
+name: History Today
 on:
   push:
     branches:
@@ -18,4 +18,4 @@ jobs:
           MEMOS_SERVER_URL: ${{ secrets.MEMOS_SERVER_URL }}
           FEISHU_URL: ${{ secrets.FEISHU_URL }}
           PUSH_TAGS: ${{ vars.PUSH_TAGS }}
-        run: npm start
+        run: npm run today
