@@ -19,8 +19,8 @@ export class MemoService {
     // if (tagMemos.length) {
     //   return this.getMemo(tagMemos);
     // }
-    if(memos.length){
-      return null
+    if (memos.length === 0) {
+      return null;
     }
     return this.getMemo(memos);
   }
@@ -34,8 +34,8 @@ export class MemoService {
         date.getMonth() === today.getMonth()
       );
     });
-    if(todayMemos.length){
-      return null
+    if (todayMemos.length == 0) {
+      return null;
     }
     return this.getMemo(todayMemos);
   }

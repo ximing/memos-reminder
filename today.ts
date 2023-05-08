@@ -24,7 +24,7 @@ async function main() {
 
   console.log("The today memo is: \r\n\r\n", luckyMemo, "\r\n");
 
-  luckyMemo && pushService.push(luckyMemo,'[历史的今天]');
+  luckyMemo && pushService.push(luckyMemo, "[历史的今天]");
 }
 
 main();
