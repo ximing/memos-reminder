@@ -24,13 +24,13 @@ export class PushService {
     },
   };
 
-  push = (memo: Memo) => {
+  push = (memo: Memo, prefix = "") => {
     Object.values(this.configs).forEach((config) => {
       axios({
         url: config.url,
         method: config.request.method,
         data: {
-          content: config.request.getData(memo),
+          content: `${prefix}${config.request.getData(memo)}`,
         },
       });
     });

@@ -5,7 +5,8 @@
   "author": "ximing",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node ."
+    "start": "ts-node .",
+    "today": "ts-node today.ts"
   },
   "devDependencies": {
     "@types/html-to-text": "^8.1.1",

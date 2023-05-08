@@ -20,11 +20,11 @@ async function main() {
   const pushService = new PushService();
 
   const memos = await apiService.getMemos();
-  const luckyMemo = memoService.getLuckyMemo(memos);
+  const luckyMemo = memoService.getTodayMemo(memos);
 
-  console.log("The lucky memo is: \r\n\r\n", luckyMemo, "\r\n");
+  console.log("The today memo is: \r\n\r\n", luckyMemo, "\r\n");
 
-  luckyMemo && pushService.push(luckyMemo);
+  luckyMemo && pushService.push(luckyMemo,'[历史的今天]');
 }
 
 main();
