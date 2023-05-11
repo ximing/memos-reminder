@@ -26,11 +26,13 @@ export class PushService {
 
   push = (memo: Memo, prefix = "") => {
     Object.values(this.configs).forEach((config) => {
+      console.log("发送内容为:");
+      const content = `${prefix}${config.request.getData(memo)}`;
       axios({
         url: config.url,
         method: config.request.method,
         data: {
-          content: `${prefix}${config.request.getData(memo)}`,
+          content,
         },
       });
     });
