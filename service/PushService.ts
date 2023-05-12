@@ -2,7 +2,10 @@ import axios from "axios";
 import envService from "./EnvService";
 import { Memo } from "../types";
 import dayjs from "dayjs";
-
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
+dayjs.extend(timezone);
 interface Config {
   url: string;
   request: {
@@ -21,7 +24,9 @@ export class PushService {
           `${memo.content}\n${memo.resourceList.map(
             (res) => `![${res.filename}](${res.externalLink})`
           )}
-创建于: ${dayjs(memo.createdTs * 1000).format("YYYY-MM-DD HH:mm")}`,
+创建于: ${dayjs(memo.createdTs * 1000)
+            .tz("Asia/Shanghai")
+            .format("YYYY-MM-DD HH:mm")}`,
       },
     },
   };
