@@ -1,6 +1,7 @@
 import axios from "axios";
 import envService from "./EnvService";
 import { Memo } from "../types";
+import dayjs from "dayjs";
 
 interface Config {
   url: string;
@@ -19,7 +20,8 @@ export class PushService {
         getData: (memo: Memo) =>
           `${memo.content}\n${memo.resourceList.map(
             (res) => `![${res.filename}](${res.externalLink})`
-          )}`,
+          )}
+创建于: ${dayjs(memo.createdTs * 1000).format("YYYY-MM-DD HH:mm")}`,
       },
     },
   };
