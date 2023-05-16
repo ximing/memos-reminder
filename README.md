@@ -1,13 +1,11 @@
-# Flomo Reminder
+# Memos Reminder
 
 基于 `github actions` 的定时推送 memo 服务，灵感来自 flomo `每日提醒` 功能。
-
-![](https://i.328888.xyz/2023/04/19/i6vXeH.png)
 
 ## 功能
 
 - 支持通过 cron 表达式配置推送时间，默认在每天 `9:00`、`12:00`、`18:00` 进行推送
-- 推送支持 [Bark](https://github.com/Finb/Bark) 和 [PushDeer](http://www.pushdeer.com)
+- 支持纯文本和图片
 - 支持自定义要推送的 memo 标签
 
 ## 用法
@@ -20,11 +18,12 @@
 
 3. 在 `Secrets` 这一栏中，点击右边的按钮 `New repository secret`，添加如下表参数。如果配置了多个通道的 token，则会发送多个通道推送
 
-| 参数                | 说明                                                                                   | 示例                                                | 必填 |
-| ------------------- | -------------------------------------------------------------------------------------- | --------------------------------------------------- | ---- |
-| FLOMO_AUTHORIZATION | 在 Web 端登录 flomo，打开开发者工具，在随便一个接口请求里复制 authorization 头的值即可 | Bearer 12345678 ｜ xxxxxxxx                         | ✅   |
-| FEISHU_URL          | 飞书推送的 url                                                                         | https://www.feishu.cn/flow/api/trigger-webhook/xxxx |      |
-| PUSHDEER_TOKEN      | PushDeer 的 推送 token，在 PushDeer 设置中可以找到                                     | aBcDefg1234HijkLmn                                  |      |
+| 参数             | 说明                    | 示例                                                | 必填 |
+| ---------------- | ----------------------- | --------------------------------------------------- | ---- |
+| MEMOS_OPEN_API   | memos 设置中 OpenAPI 值 | 12345678 ｜ xxxxxxxx                                | ✅   |
+| MEMOS_SERVER_URL | memos 服务端地址        | https://memos.com/api/memo                          |      |
+| FEISHU_URL       | 飞书推送的 url          | https://www.feishu.cn/flow/api/trigger-webhook/xxxx |      |
+| PUSH_TAGS        | 推动的 tags             | aBcDefg1234HijkLmn                                  |      |
 
 1. 在 `Variables` 栏中，点击按钮 `New repository variable`，添加如下表参数
 
@@ -39,9 +38,9 @@
 
 ```
 // ./.env
-FLOMO_AUTHORIZATION=Bearer 123456|xxxxxx
-BARK_TOKEN=xxxxxx
-PUSH_TAGS=学习/前端/知识体系,读书,名言
+MEMOS_OPEN_API=abcddd
+MEMOS_SERVER_URL=https://memos.com/api/memo
+FEISHU_URL=https://www.feishu.cn/flow/api/trigger-webhook/xxxx
 ```
 
 然后运行本地调试命令：
