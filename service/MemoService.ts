@@ -1,12 +1,21 @@
-import { random } from "lodash";
+// import { random } from "lodash";
 import { Memo } from "../types";
 import envService from "./EnvService";
 
+const crypto = require("crypto");
+
+function getRandomInt(min: number, max: number) {
+  const randomBuffer = crypto.randomBytes(4);
+  const randomInt = randomBuffer.readUInt32BE(0, true);
+  // 将随机整数限制在[min, max)区间
+  return (randomInt % (max - min)) + min;
+}
+
 export class MemoService {
-  private pushTags = envService.envs.PUSH_TAGS.split(",");
+  // private pushTags = envService.envs.PUSH_TAGS.split(",");
 
   private getMemo(memos: Memo[]) {
-    return memos[random(memos.length - 1)];
+    return memos[getRandomInt(0, memos.length)];
     // return this.convertMemoToHtml(memos[random(memos.length - 1)]);
   }
 
