@@ -13,7 +13,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 interface Config {
-  url: string;
+  url: string[];
   request: {
     method: "GET" | "POST";
     getData: (memo: Memo) => {
@@ -27,7 +27,7 @@ interface Config {
 export class PushService {
   private configs: Record<string, Config> = {
     feishu: {
-      url: envService.envs.FEISHU_URL,
+      url: envService.envs.FEISHU_URL.split(","),
       request: {
         method: "POST",
         getData: (memo: Memo) => {
@@ -82,39 +82,43 @@ export class PushService {
 
       if (data.imageList.length) {
         const imageKeys = await config.request.handleImage(data.imageList);
-        axios({
-          url: config.url,
-          method: config.request.method,
-          data: {
-            msg_type: "post",
-            content: {
-              post: {
-                zh_cn: {
-                  content: [
-                    [
-                      {
-                        tag: "text",
-                        text,
-                      },
+        config.url.forEach((url) => {
+          axios({
+            url: url,
+            method: config.request.method,
+            data: {
+              msg_type: "post",
+              content: {
+                post: {
+                  zh_cn: {
+                    content: [
+                      [
+                        {
+                          tag: "text",
+                          text,
+                        },
+                      ],
+                      imageKeys.map((image_key: string) => ({
+                        tag: "img",
+                        image_key,
+                      })),
                     ],
-                    imageKeys.map((image_key: string) => ({
-                      tag: "img",
-                      image_key,
-                    })),
-                  ],
+                  },
                 },
               },
             },
-          },
+          });
         });
       } else {
-        axios({
-          url: config.url,
-          method: config.request.method,
-          data: {
-            msg_type: "text",
-            content: { text },
-          },
+        config.url.forEach((url) => {
+          axios({
+            url: url,
+            method: config.request.method,
+            data: {
+              msg_type: "text",
+              content: { text },
+            },
+          });
         });
       }
     });
