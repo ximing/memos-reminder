@@ -36,7 +36,7 @@ export class ApiService {
       params: this.getParams(),
     });
     const data = resp?.data;
-    return (data?.data || []) as Memo[];
+    return (data || []) as Memo[];
   }
 
   /**
