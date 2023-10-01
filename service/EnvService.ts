@@ -1,14 +1,15 @@
 class EnvService {
   envs = {
-    MEMOS_OPEN_API: process.env.MEMOS_OPEN_API || "", // momo jwt
+    MEMOS_ACCESS_TOKEN: process.env.MEMOS_ACCESS_TOKEN || "", // momo jwt
     MEMOS_SERVER_URL: process.env.MEMOS_SERVER_URL || "", // push-deer token
+    DEBUG: process.env.DEBUG || "", // push-deer token
     PUSH_TAGS: process.env.PUSH_TAGS || "", // 需要推送的 tags，用逗号分割
     FEISHU_URL: process.env.FEISHU_URL || "", // push-deer token
     FEISHU_APPID: process.env.FEISHU_APPID || "", // 飞书 appid
     FEISHU_APP_SECRET: process.env.FEISHU_APP_SECRET || "", // 飞书 app secret
   };
 
-  requiredEnvs: (keyof typeof this.envs)[] = ["MEMOS_OPEN_API"];
+  requiredEnvs: (keyof typeof this.envs)[] = ["MEMOS_ACCESS_TOKEN"];
 
   constructor() {
     const lackEnvs = (

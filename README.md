@@ -2,6 +2,8 @@
 
 基于 `github actions` 的定时推送 memo 服务，灵感来自 flomo `每日提醒` 功能。
 
+momos 版本>=0.15.0 [see access-tokens](https://usememos.com/docs/access-tokens)
+
 ## 功能
 
 - 支持通过 cron 表达式配置推送时间，默认在每天 `9:00`、`12:00`、`18:00` 进行推送
@@ -18,12 +20,12 @@
 
 3. 在 `Secrets` 这一栏中，点击右边的按钮 `New repository secret`，添加如下表参数。如果配置了多个通道的 token，则会发送多个通道推送
 
-| 参数             | 说明                    | 示例                                                | 必填 |
-| ---------------- | ----------------------- | --------------------------------------------------- | ---- |
-| MEMOS_OPEN_API   | memos 设置中 OpenAPI 值 | 12345678 ｜ xxxxxxxx                                | ✅   |
-| MEMOS_SERVER_URL | memos 服务端地址        | https://memos.com/api/memo                          |      |
-| FEISHU_URL       | 飞书推送的 url          | https://www.feishu.cn/flow/api/trigger-webhook/xxxx |      |
-| PUSH_TAGS        | 推动的 tags             | aBcDefg1234HijkLmn                                  |      |
+| 参数             | 说明           | 示例                                                | 必填 |
+| ---------------- |--------------| --------------------------------------------------- | ---- |
+| MEMOS_ACCESS_TOKEN   | memos 设置中 MEMOS_ACCESS_TOKEN 值 | 12345678 ｜ xxxxxxxx                                | ✅   |
+| MEMOS_SERVER_URL | memos 服务端地址  | https://memos.com/api/memo                          |      |
+| FEISHU_URL       | 飞书推送的 url    | https://www.feishu.cn/flow/api/trigger-webhook/xxxx |      |
+| PUSH_TAGS        | 推动的 tags     | aBcDefg1234HijkLmn                                  |      |
 
 1. 在 `Variables` 栏中，点击按钮 `New repository variable`，添加如下表参数
 
@@ -38,7 +40,7 @@
 
 ```
 // ./.env
-MEMOS_OPEN_API=abcddd
+MEMOS_ACCESS_TOKEN=abcddd
 MEMOS_SERVER_URL=https://memos.com/api/memo
 FEISHU_URL=https://www.feishu.cn/flow/api/trigger-webhook/xxxx
 ```

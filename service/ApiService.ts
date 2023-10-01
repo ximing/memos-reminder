@@ -5,7 +5,7 @@ import envService from "./EnvService";
 export class ApiService {
   private getMemoUrl = envService.envs.MEMOS_SERVER_URL;
   private successCode = 0;
-  private openId = envService.envs.MEMOS_OPEN_API;
+  private accessToken = envService.envs.MEMOS_ACCESS_TOKEN;
   private limit = 200;
   private offset = 0;
 
@@ -28,13 +28,19 @@ export class ApiService {
       offset: this.offset * this.limit,
     });
 
-    return { ...sortedParams, openId: this.openId };
+    return { ...sortedParams };
   }
 
   private async request() {
     const resp = await axios.get(this.getMemoUrl, {
       params: this.getParams(),
+      headers:{
+        Authorization:`Bearer ${this.accessToken}`
+      }
     });
+    if(envService.envs.DEBUG){
+      console.log('resp',resp)
+    }
     const data = resp?.data;
     return (data || []) as Memo[];
   }
