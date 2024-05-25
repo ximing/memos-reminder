@@ -53,6 +53,7 @@ export class ApiService {
     const memos: Memo[] = [];
     do {
       const memosRes = await this.request();
+      console.log("抓取数量", memosRes.length);
       memos.push(...memosRes);
     } while (this.pageToken);
     return memos;
