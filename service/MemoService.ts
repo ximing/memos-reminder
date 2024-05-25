@@ -37,7 +37,7 @@ export class MemoService {
   getTodayMemo(memos: Memo[]) {
     const today = new Date();
     const todayMemos = memos.filter((memo) => {
-      const date = new Date(memo.createdTs);
+      const date = new Date(memo.updateTime);
       return (
         date.getDate() === today.getDate() &&
         date.getMonth() === today.getMonth()

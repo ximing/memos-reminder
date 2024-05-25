@@ -1,13 +1,13 @@
 import axios from "axios";
-import { Memo } from "../types";
+import { Memo, MemosResponse } from "../types";
 import envService from "./EnvService";
 
 export class ApiService {
-  private getMemoUrl = envService.envs.MEMOS_SERVER_URL;
-  private successCode = 0;
+  private getMemoUrl = `${envService.envs.MEMOS_SERVER_URL}/api/v1/memos`;
   private accessToken = envService.envs.MEMOS_ACCESS_TOKEN;
-  private limit = 200;
-  private offset = 0;
+  private successCode = 0;
+  private pageSize = 200;
+  private pageToken = "";
 
   /**
    * 给 params 排序以生成签名
@@ -24,37 +24,37 @@ export class ApiService {
    */
   private getParams() {
     const sortedParams: { [key: string]: string } = this.kSort({
-      limit: this.limit,
-      offset: this.offset * this.limit,
+      pageSize: this.pageSize,
+      pageToken: this.pageToken,
     });
 
     return { ...sortedParams };
   }
 
   private async request() {
-    const resp = await axios.get(this.getMemoUrl, {
+    const resp = await axios.get<MemosResponse>(this.getMemoUrl, {
       params: this.getParams(),
-      headers:{
-        Authorization:`Bearer ${this.accessToken}`
-      }
+      headers: {
+        Authorization: `Bearer ${this.accessToken}`,
+      },
     });
-    if(envService.envs.DEBUG){
-      console.log('resp',resp)
+    if (envService.envs.DEBUG) {
+      console.log("resp", resp);
     }
     const data = resp?.data;
-    return (data || []) as Memo[];
+    this.pageToken = data.nextPageToken || "";
+    return data.memos;
   }
 
   /**
    * 分片获取 memos
    */
   async getMemos(): Promise<Memo[]> {
-    const memos = await this.request();
-    if (memos.length >= this.limit) {
-      this.offset += 1;
-      return [...memos, ...(await this.getMemos())];
-    } else {
-      return memos;
-    }
+    const memos: Memo[] = [];
+    do {
+      const memosRes = await this.request();
+      memos.push(...memosRes);
+    } while (this.pageToken);
+    return memos;
   }
 }

@@ -33,10 +33,10 @@ export class PushService {
         getData: (memo: Memo) => {
           return {
             text: `${memo.content}
-创建于: ${dayjs(memo.createdTs * 1000)
+创建于: ${dayjs(memo.createTime)
               .tz("Asia/Shanghai")
               .format("YYYY-MM-DD HH:mm")}`,
-            imageList: memo.resourceList.map(
+            imageList: memo.resources.map(
               (res) => res.externalLink //`![${res.filename}](${res.externalLink})`
             ),
           };
